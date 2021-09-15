@@ -1,4 +1,4 @@
-AK-Chatapp
+AK-Chatapp: 
 We build a real-time chat application with a room functionality where yoy can create your own room and share the room name with your friends to have text-based communication.
 This app is build using express,socket.io library and Node.js Engine with the help of the following resources : 
 https://www.youtube.com/playlist?list=PL4cUxeGkcC9i4V-_ZVwLmOusj8YAUhj_9
