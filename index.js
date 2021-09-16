@@ -8,11 +8,15 @@ server.listen(4000,function(){
     console.log("port 4000");
 });
 
+//Importing users.js
+const {joinUser} =require('./public/users')
 
 const io = require('socket.io')(server)
 
-//Static files
+//Static files(Middleware)
 app.use(express.static('public'));
+
+let thisRoom= "";
 
 // Connection making
 io.on('connection', (socket) => {
@@ -22,12 +26,21 @@ io.on('connection', (socket) => {
     // Handle chat event
     socket.on('chat', function(data){
         // console.log(data);
-        io.sockets.emit('chat', data);
+        io.in(thisRoom).emit('chat', data);
     });
 
     // Handle typing event
     socket.on('typing', function(data){
-        socket.broadcast.emit('typing', data);
+        socket.to(thisRoom).emit('typing', data);
+    });
+
+    //Room functionality
+    socket.on("join room",function(data){
+        console.log(`in room ${data.roomName}`);
+        let Newuser = joinUser(socket.id,data.username,data.roomName);
+        thisRoom=Newuser.roomname;
+        console.log(Newuser);
+        socket.join(Newuser.roomname);
     });
 
 });
